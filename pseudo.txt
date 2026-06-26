@@ -1,0 +1,136 @@
+PARA is a TUI notetaking assistant.
+
+Usage:
+
+`pk`
+  - no args trigger prompt for a single-word title, and -h reminder
+  - args are the title of the note. Spaces automatically switch to dashes
+  - set up for user-default text editor with chosen template
+  `pk foo bar`
+  - Create note, ./inbox/YYwWW-foo-bar.md
+    - Copy pkTemplate.md under new title
+  - Opes note in default editor
+    - If that editor is vim, nvim, or nvf:
+      - vim normal mode map 'Go'
+
+`pk -h`
+  - Print '''
+    pk is a simple notetaking assistant.
+    It works with the PARA, CODE, and Zettelkasten methods.
+    PARA stands for Projects, Areas, Resources, and Archive.
+      These 4 buckets are in order of highest to lowest frequency of use.
+      Projects: Active daily references
+      Areas: Interests, documentation, SOPs
+      Resources: Advice, repair guides, recipes
+      Archive: Rarely accessed, but retained
+    CODE stands for Capture, Organize, Distill, Express.
+      Capture: Low-friction, high-speed capture of information
+      Organize: Timestamp, make links, put it where it's needed
+      Distill: Pull the real information out, find unexpected links
+      Express: Easily reference and combine information
+    Zettelkasten is German for "boxes that hold slips of paper"
+      Each zettel, or slip, contains:
+      - A unique name
+      - One piece of information
+      - An array of links to other slips
+      Slips are linked to each other by name
+      Slips are categorized into kasten, or boxes - directories and subdirectories.
+      The web of links expands with more slips, easily modelling a mind map
+
+    pk is a tool for combining these three models.
+    It facilitates...
+    - capturing new notes quickly and efficiently with `pk foo`.
+      These new notes include...
+      - a Zettelkasten standard name (hardcoded to iso YY"w"WW-foo.md).
+        - TODO make customizable
+      - markdown formatting and a .md filetype.
+      - Obsidian-style linking, eg. [[bar]].
+      - TODO customizations to nvim LSP for linking
+    - organizing those notes into PARA categories with `pk -o`.
+    - updating PARA categorization with `pk -u`.
+    - distillation and synthesis of information with `pk -d`
+    - evaluation of recent capture and vault status with `pk -e`
+    - storage stats and easy migration with `pk -s`
+
+    In service to this, pk includes the following options:
+
+    pk
+      Define note folder if none is defined, create a new note, or access help
+
+    pk -h (-help)
+      Display this dialog
+
+    pk foo
+      Create a new timestamped note in the inbox, titled "foo"
+
+    pk -t (-template)
+      Edit the .md note template. You can only have one template, so format it well!
+
+    pk -o (-organize)
+      Sort your inbox into PARA categories
+
+    pk -u (-update)
+      Promote and demote files between PARA categories
+
+    pk -d (-distill)
+      Search notes for unexpected links
+      Combine similar notes
+      Condense verbose notes
+
+    pk -e (-express)
+      Recently modified
+      Project folders with stats
+      Potential links in most-used files
+      Most-edited
+      Mind map
+
+    pk -s (-stats)
+      View link map
+        Can Python do math fast enough?
+        Math shit
+          Single-point radial gravity - invisible special node in the center
+          Links act as vector forces pulling the linked-to towards the linked-from
+
+      Set a new directory for your files, with migration options
+
+    pk does not conflict with manual editing of any part of your note directory.
+    pk cannot delete files other than its own automatically generated temp files.
+  '''
+
+`pk -t (-template)`
+  - edit the template file ./pk/pkTemplate.md
+
+`pk -d (-distill)`
+
+`pk -v (-vault)`
+
+`pk -c (-clean)`
+
+`pk -i (-inbox)`
+  - Write each filename in ./inbox/ to a line of ./pk/pkInboxList.txt
+  - Given
+    - i: line number in ./pk/pkInboxList
+    - j: number of lines in ./pk/pkInboxList
+    - filename: line i contents
+  - print '''
+    pk inbox sort, item i/j: filename
+    type:
+    size: (lines)
+    inboxed at:
+    (preview)
+
+    Send to PARA boxes (prefix r to rename, eg. rj to rename before sending to Areas):
+                                  k: Resources
+                          h: Projects     l: Archive
+                                  j: Areas
+  '''
+  - If item is .txt or .md:
+    - Include size in lines
+    - Include a text preview
+  - If command is prefixed with r:
+    - Print "Renaming filename to input. Do not include timestamp."
+    - Rename file to user input
+    - Move file to ./projects/, ./areas/, ./resources/, or ./archive
+  - If command is not prefixed with r:
+    - Move file to ./projects/, ./areas/, ./resources/, or ./archive
+  - Delete ./pk/pkInboxList.txt
